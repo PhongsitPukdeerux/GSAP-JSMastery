@@ -1,3 +1,4 @@
+import gsap from "gsap";
 // Select the main floating action button (FAB)
 const fab = document.querySelector(".fab");
 
@@ -20,7 +21,10 @@ fab.addEventListener("click", () => {
     // Define arc of expansion: spread over 90 degrees
     const arcSpan = Math.PI / 1.5; // radians
     const startAngle = Math.PI / 2 + arcSpan / 2; // start at top-center
-
+    gsap.to(fab, {
+        scale:2,
+        opacity: 0.8
+    })
     children.forEach((child, i) => {
       // Distribute each child evenly across the arc
       const angle = startAngle - i * (arcSpan / (children.length - 1));
@@ -30,10 +34,34 @@ fab.addEventListener("click", () => {
       const y = -Math.sin(angle) * radius;
 
       // 🔜 Animation will go here
+      gsap.to(child, {
+        x: x,
+        y: y,
+        opacity: 1,
+        rotate: 360,
+        duration: 0.4,
+        scale:1,
+        ease: 'expo.out',
+        delay: i * 0.1
+      })
     });
   } else {
-    children.forEach((child) => {
+    
+    gsap.to(fab, {
+        scale:1,
+    })
+    children.forEach((child, i) => {
       // 🔜 Collapse animation will go here
+      gsap.to(child, {
+        x: 0,
+        y: 0,
+        opacity: 0,
+        rotate: 0,
+        scale:0.2,
+        duration: 0.4,
+        ease: 'expo.in',
+        delay: i * 0.1
+      })
     });
   }
 });
